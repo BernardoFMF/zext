@@ -17,3 +17,7 @@ export async function registerUserHandler(req: Request<{}, {}, RegisterUserBody>
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(error.message)
     }
 }
+
+export async function getLoggedUser(req: Request, res: Response) {
+    res.send(res.locals.user)
+}
