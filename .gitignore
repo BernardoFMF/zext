@@ -26,3 +26,5 @@ yarn-error.log*
 
 # videos
 /server/videos
+/server/videos/
+/server/videos/**
