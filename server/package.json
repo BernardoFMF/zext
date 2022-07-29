@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@mantine/form": "^5.0.0",
     "@typegoose/typegoose": "^9.10.1",
     "argon2": "^0.28.7",
     "busboy": "^1.6.0",

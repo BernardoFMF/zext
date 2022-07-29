@@ -1,6 +1,5 @@
 import { object, string, boolean, TypeOf } from "zod"
 
-
 export const updateVideoSchema = {
     body: object({
         title: string(),
