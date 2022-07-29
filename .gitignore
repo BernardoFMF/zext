@@ -10,7 +10,7 @@ node_modules/
 /coverage
 
 # production
-/frontend/build
+/client/build
 
 # misc
 .DS_Store
@@ -25,4 +25,4 @@ yarn-debug.log*
 yarn-error.log*
 
 # videos
-/backend/videos
+/server/videos
