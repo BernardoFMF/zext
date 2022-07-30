@@ -3,9 +3,13 @@ import { useForm } from "@mantine/form"
 import { useMutation } from "@tanstack/react-query"
 import { AxiosError } from "axios"
 import Head from "next/head"
+import { showNotification, updateNotification } from "@mantine/notifications";
 import { registerUser } from "../../api"
+import { useRouter } from "next/router";
 
 function RegisterPage() {
+    const router = useRouter();
+
     const form = useForm({
         initialValues: {
             email: "",
@@ -17,13 +21,28 @@ function RegisterPage() {
 
     const mutation = useMutation<string, AxiosError, Parameters<typeof registerUser>["0"]>(registerUser, {
         onMutate: () => {
-
+            showNotification({
+                id: "register",
+                title: "Creating account",
+                message: "Please wait...",
+                loading: true,
+            })
         },
         onSuccess: () => {
-
+            updateNotification({
+                id: "register",
+                title: "Success",
+                message: "Successfully created account",
+            })
+        
+            router.push("/auth/login");
         },
         onError: () => {
-            
+            updateNotification({
+                id: "register",
+                title: "Error",
+                message: "Could not create account",
+            })
         }
     })
 
