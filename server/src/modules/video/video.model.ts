@@ -22,6 +22,9 @@ export class Video {
 
     @prop({ default: false })
     public published: boolean
+
+    @prop()
+    public category: string
 }
 
 export const VideoModel = getModelForClass(Video, {

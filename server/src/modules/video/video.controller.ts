@@ -57,7 +57,7 @@ export async function uploadVideoHandler(req: Request, res: Response) {
 
 export async function updateVideoHandler(req: Request<UpdateVideoParams, {}, UpdateVideoBody>, res: Response) {
     const { videoId } = req.params
-    const { title, description, published } = req.body
+    const { title, description, published, category } = req.body
 
     const { _id: userId } = res.locals.user
 
@@ -70,6 +70,7 @@ export async function updateVideoHandler(req: Request<UpdateVideoParams, {}, Upd
     video.title = title
     video.description = description
     video.published = published
+    video.category = category
 
     await video.save()
 

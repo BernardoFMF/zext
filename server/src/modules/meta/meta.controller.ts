@@ -2,8 +2,9 @@ import { Request, Response } from "express"
 import { StatusCodes } from "http-status-codes"
 import { addLike, deleteLike, addComment, deleteComment, getMeta } from "./meta.service"
 import { findVideo } from "../video/video.service"
+import { AddCommentParams, AddCommentBody, DeleteCommentParams, DeleteCommentBody, AddLikeParams, DeleteLikeParams, GetVideoMetaParams } from "./meta.schema"
 
-export async function addCommentToVideo(req: Request, res: Response) {
+export async function addCommentToVideo(req: Request<AddCommentParams, {}, AddCommentBody>, res: Response) {
     const { videoId } = req.params
     const { comment } = req.body
     
@@ -18,7 +19,7 @@ export async function addCommentToVideo(req: Request, res: Response) {
     return res.status(StatusCodes.CREATED).send("Comment added successfully")
 }
 
-export async function deleteCommentFromVideo(req: Request, res: Response) {
+export async function deleteCommentFromVideo(req: Request<DeleteCommentParams, {}, DeleteCommentBody>, res: Response) {
     const { videoId } = req.params
     const { commentId } = req.body
     
@@ -33,7 +34,7 @@ export async function deleteCommentFromVideo(req: Request, res: Response) {
     return res.status(StatusCodes.OK).send("Comment deleted successfully")
 }
 
-export async function addLikeToVideo(req: Request, res: Response) {
+export async function addLikeToVideo(req: Request<AddLikeParams, {}, {}>, res: Response) {
     const { videoId } = req.params
     
     const { _id: userId } = res.locals.user
@@ -47,7 +48,7 @@ export async function addLikeToVideo(req: Request, res: Response) {
     return res.status(StatusCodes.CREATED).send("Liked added successfully")
 }
 
-export async function deleteLikeFromVideo(req: Request, res: Response) {
+export async function deleteLikeFromVideo(req: Request<DeleteLikeParams, {}, {}>, res: Response) {
     const { videoId } = req.params
 
     const { _id: userId } = res.locals.user
@@ -61,7 +62,7 @@ export async function deleteLikeFromVideo(req: Request, res: Response) {
     return res.status(StatusCodes.OK).send("Like deleted successfully")
 }
 
-export async function getVideoMeta(req: Request, res: Response) {
+export async function getVideoMeta(req: Request<GetVideoMetaParams, {}, {}>, res: Response) {
     const { videoId } = req.params
 
     const video = await findVideo(videoId)
