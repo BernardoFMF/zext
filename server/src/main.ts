@@ -30,10 +30,13 @@ app.use("/api/auth", authRoute)
 app.use("/api/videos", videoRoute)
 app.use("/api/meta", metaRoute)
 
+app.use('/data', express.static('data'));
+
 const server = app.listen(PORT, async () => {
     await connectToDatabase()
     logger.info(`Started server in port ${PORT} and connected to database`);
 })
+
 
 const signals = ["SIGTERM", "SIGINT"]
 

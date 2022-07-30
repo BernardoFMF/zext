@@ -20,4 +20,12 @@ export const registerUserSchema = {
     })
 }
 
+export const updateProfilePictureSchema = {
+    body: object({
+        image: string()
+    })
+}
+
 export type RegisterUserBody = TypeOf<typeof registerUserSchema.body>
+
+export type UpdateProfilePictureBody = TypeOf<typeof updateProfilePictureSchema.body>

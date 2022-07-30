@@ -11,7 +11,7 @@ const MIME_TYPES = ["video/mp4"] //video/mov
 const CHUNK_SIZE_IN_BYTES = 1000000 // 1mb, instead of static detect based on internet speed
 
 function getPath({ videoId, extension }: { videoId: Video["videoId"]; extension: Video["extension"] }) {
-    return `${process.cwd()}/videos/${videoId}.${extension}`
+    return `${process.cwd()}/data/videos/${videoId}.${extension}`
 }
 
 export async function uploadVideoHandler(req: Request, res: Response) {
@@ -57,8 +57,8 @@ export async function uploadVideoHandler(req: Request, res: Response) {
 
 export async function updateVideoHandler(req: Request<UpdateVideoParams, {}, UpdateVideoBody>, res: Response) {
     const { videoId } = req.params
-    const { title, description, published, category } = req.body
-
+    const { title, description, published, category, thumbnail } = req.body
+    
     const { _id: userId } = res.locals.user
 
     const video = await findVideo(videoId)
@@ -71,6 +71,7 @@ export async function updateVideoHandler(req: Request<UpdateVideoParams, {}, Upd
     video.description = description
     video.published = published
     video.category = category
+    video.thumbnail = thumbnail
 
     await video.save()
 

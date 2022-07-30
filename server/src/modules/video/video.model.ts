@@ -25,6 +25,9 @@ export class Video {
 
     @prop()
     public category: string
+
+    @prop()
+    public thumbnail: string
 }
 
 export const VideoModel = getModelForClass(Video, {

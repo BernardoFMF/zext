@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { StatusCodes } from "http-status-codes"
-import { RegisterUserBody } from "./user.schema"
-import { createUser } from "./user.service"
+import { RegisterUserBody, UpdateProfilePictureBody } from "./user.schema"
+import { createUser, findUserByEmail } from "./user.service"
 
 export async function registerUserHandler(req: Request<{}, {}, RegisterUserBody>, res: Response) {
     const { username, email, password } = req.body
@@ -16,6 +16,21 @@ export async function registerUserHandler(req: Request<{}, {}, RegisterUserBody>
         }
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(error.message)
     }
+}
+
+export async function updateProfileImage(req: Request<{}, {}, UpdateProfilePictureBody>, res: Response) {
+    const { image } = req.body
+
+    const { _id: userId, email } = res.locals.user
+
+    const user = await findUserByEmail(email)
+
+    if (!user) return res.status(StatusCodes.NOT_FOUND).send("User does not exist")
+
+    user.image = image
+    user.save()
+
+    return res.status(StatusCodes.OK).send("Image updated successfully")
 }
 
 export async function getLoggedUser(req: Request, res: Response) {
