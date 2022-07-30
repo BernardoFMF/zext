@@ -24,7 +24,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# videos
-/server/videos
-/server/videos/
-/server/videos/**
+# data
+/server/data
+/server/data/
+/server/data/**
