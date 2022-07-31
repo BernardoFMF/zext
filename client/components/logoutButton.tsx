@@ -5,8 +5,9 @@ import {
   TablerIcon
 } from '@tabler/icons'
 import Link from 'next/link';
+import { logout } from '../api';
 import { useRouter } from 'next/router';
-import cookie from 'js-cookie'
+import cookies from 'js-cookie'
 
 const useStyles = createStyles((theme) => ({
     link: {
@@ -37,8 +38,9 @@ export default function LogoutButton() {
     const router = useRouter()
 
     const logoutHandler: any = () => {
-      console.log("removeu...");
-      
+      logout()
+      router.push("/auth/login")
+
     }
 
     return (

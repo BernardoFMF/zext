@@ -1,4 +1,5 @@
 import axios from "axios";
+import cookies from "js-cookie";
 
 const base = process.env.NEXT_PUBLIC_API_ENDPOINT
 
@@ -16,7 +17,17 @@ export function login(payload: { email: string; password: string }) {
       .post(authBase + "login", payload, {
         withCredentials: true,
       })
-      .then((res) => res.data);
+      .then((res) => {
+        localStorage.setItem("accessToken", JSON.stringify(res.data))
+        cookies.set("accessToken", res.data, {
+            expires: 1,
+            domain: "localhost", //change this when deploying 54:30
+            path: "/",
+            sameSite: "strict",
+            secure: false //put true when deploying
+        })
+        return res.data
+      });
 }
 
 export function getMe() {
@@ -28,4 +39,11 @@ export function getMe() {
       .catch(() => {
         return null;
       });
+}
+
+export function logout() {
+  cookies.remove("accessToken", {
+    domain: "localhost", //change this when deploying 54:30
+    path: "/",
+  })
 }

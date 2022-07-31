@@ -7,6 +7,8 @@ import { useMe } from "../context/me";
 function HomePageLayout ({ children, path }: { children: React.ReactNode, path: string }) {
     const { user, refetch } = useMe()
 
+    refetch()
+
     return (
         <AppShell
             padding="md"
