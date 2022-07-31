@@ -1,6 +1,6 @@
 import { Loader } from "@mantine/core";
 import { createContext, ReactNode, useContext } from "react";
-import { useQuery, RefetchOptions, RefetchQueryFilters, QueryKey } from "@tanstack/react-query";
+import { useQuery, RefetchOptions, RefetchQueryFilters,  } from "@tanstack/react-query";
 import { getMe } from "../api";
 import { Me, QueryKeys } from "../types";
 
@@ -13,7 +13,7 @@ const MeContext = createContext<{
 }>(null);
 
 function MeContextProvider({ children }: { children: ReactNode }) {
-  const { data, isLoading, refetch } = useQuery(QueryKeys.me, getMe);
+  const { data, isLoading, refetch } = useQuery([ QueryKeys.me ], getMe);
 
   return (
     <MeContext.Provider value={{ user: data, refetch }}>

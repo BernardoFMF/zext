@@ -14,7 +14,7 @@ const Home = () => {
 }
 
 Home.getLayout = function(page: ReactElement) {
-  return <HomePageLayout>{page}</HomePageLayout>
+  return <HomePageLayout path="/test">{page}</HomePageLayout>
 }
 
 export default Home

@@ -1,16 +1,17 @@
 import { AppShell, Header, Navbar, Box } from "@mantine/core";
 import React, { useState } from "react";
 import Image from "next/image";
-import NavbarSearch from "../components/navbar";
+import IconNavbar from "../components/navbar";
+import { useMe } from "../context/me";
 
-function HomePageLayout ({ children }: { children: React.ReactNode }) {
-    const [ open, setOpen ] = useState(true)
+function HomePageLayout ({ children, path }: { children: React.ReactNode, path: string }) {
+    const { user, refetch } = useMe()
 
     return (
         <AppShell
             padding="md"
             navbar={
-                <NavbarSearch open={open}/>
+                <IconNavbar user={user} path={path} />
             }
         >
             { children }

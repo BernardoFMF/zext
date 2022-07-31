@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navbar, Center, Tooltip, UnstyledButton, createStyles, Stack, Box } from '@mantine/core';
+import { Navbar, Center, Tooltip, UnstyledButton, createStyles, Stack, Box, Avatar } from '@mantine/core';
 import {
   TablerIcon,
   IconHome2,
@@ -7,9 +7,14 @@ import {
   IconLogout,
   IconHeart,
   IconSwitchHorizontal,
-  IconUsers
+  IconUsers,
+  IconLogin,
+  IconUpload
 } from '@tabler/icons'
 import Link from 'next/link';
+import { useMe } from '../context/me';
+import LogoutButton from './logoutButton';
+import { Me } from '../types';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -38,18 +43,17 @@ interface NavbarLinkProps {
   icon: TablerIcon;
   label: string;
   active?: boolean;
-  path: string;
-  onClick?(): void;
+  href: string;
 }
 
-function NavbarLink({ icon: Icon, label, active, path, onClick }: NavbarLinkProps) {
+function NavbarLink({ icon: Icon, label, active, href }: NavbarLinkProps) {
   const { classes, cx } = useStyles();
   return (
-      <Link href={path} passHref>
+      <Link href={href} passHref>
         <Box mb={5}>
           <Tooltip label={label} position="right" transitionDuration={0}>
             
-              <UnstyledButton onClick={onClick} className={cx(classes.link, { [classes.active]: active })}>
+              <UnstyledButton className={cx(classes.link, { [classes.active]: active })}>
                 <Icon stroke={1.5} />
               </UnstyledButton>
           
@@ -60,21 +64,23 @@ function NavbarLink({ icon: Icon, label, active, path, onClick }: NavbarLinkProp
 }
 
 const mockdata = [
-  { icon: IconHome2, label: 'Home', path: "/" },
-  { icon: IconUser, label: 'Profile', path: "/profile" },
-  { icon: IconUsers, label: 'Users', path: "/users" },
-  { icon: IconHeart, label: 'Dashboard', path: "/liked-videos" }
+  { icon: IconHome2, label: 'Home', href: "/", needLog: false },
+  { icon: IconUser, label: 'Profile', href: "/test", needLog: true },
+  { icon: IconUsers, label: 'Users', href: "/users", needLog: true },
+  { icon: IconHeart, label: 'Liked Videos', href: "/liked-videos", needLog: true }
 ];
 
-export default function NavbarMinimal() {
-  const [active, setActive] = useState(2);
-
-  const links = mockdata.map((link, index) => (
+export default function NavbarMinimal({ path, user }: { path: string, user: Me }) {
+  
+  const links = mockdata.filter(link => {
+    if (!link.needLog) return true
+    if (user) return true
+    return false
+  }).map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
-      active={index === active}
-      onClick={() => setActive(index)}
+      active={link.href === path}
     />
   ));
 
@@ -90,8 +96,18 @@ export default function NavbarMinimal() {
       </Navbar.Section>
       <Navbar.Section>
         <Stack justify="center" spacing={0}>
-          <NavbarLink icon={IconSwitchHorizontal} label="Change account" path='/xpto'/>
-          <NavbarLink icon={IconLogout} label="Logout" path='/xptk' />
+          {
+            user ? (
+              <>
+
+                <Box><Avatar size={50} mb={5} src={null} alt="no image here" /></Box>
+                <LogoutButton />
+              </>
+            ) : (
+              <NavbarLink icon={IconLogin} label="Login" href='/auth/login' />
+            )
+          }
+          
         </Stack>
       </Navbar.Section>
     </Navbar>

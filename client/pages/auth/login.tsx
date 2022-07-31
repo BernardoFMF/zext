@@ -13,10 +13,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useMutation } from "@tanstack/react-query";
 import { login } from "../../api";
+import { showNotification, updateNotification } from "@mantine/notifications";
 
   function LoginPage() {
     const router = useRouter();
-  
+
     const form = useForm({
       initialValues: {
         email: "",
@@ -26,14 +27,31 @@ import { login } from "../../api";
       },
     });
   
-    const mutation = useMutation<
-      string,
-      AxiosError,
-      Parameters<typeof login>["0"]
-    >(login, {
-      onSuccess: () => {
-        router.push("/");
+    const mutation = useMutation<string, AxiosError, Parameters<typeof login>["0"]>(login, {
+      onMutate: () => {
+        showNotification({
+            id: "login",
+            title: "Verifying credentials",
+            message: "Please wait...",
+            loading: true,
+        })
       },
+      onSuccess: () => {
+          updateNotification({
+              id: "login",
+              title: "Success",
+              message: "Successfully logged in",
+          })
+      
+          router.push("/");
+      },
+      onError: () => {
+          updateNotification({
+              id: "login",
+              title: "Error",
+              message: "Invalid credentials",
+          })
+      }
     });
   
     return (
