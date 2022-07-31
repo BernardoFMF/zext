@@ -13,18 +13,19 @@ export async function loginHandler(req: Request<{}, {}, LoginBody>, res: Respons
     if (!user || !user.comparePassword(password))
         return res.status(StatusCodes.UNAUTHORIZED).send("Invalid email or password")
 
+    // @ts-ignore: the array is a string array
     const payload = omit(user.toJSON(), ["password", "__v"]);
   
     const jwt = signJwt(payload)
 
-    res.cookie("accessToken", jwt, {
+    /*res.cookie("accessToken", jwt, {
         maxAge: 3.154e10,
         httpOnly: true,
         domain: "localhost", //change this when deploying 54:30
         path: "/",
         sameSite: "strict",
         secure: false //put true when deploying
-    })
+    })*/
 
     return res.status(StatusCodes.OK).send(jwt)
 }
