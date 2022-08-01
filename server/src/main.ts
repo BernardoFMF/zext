@@ -21,7 +21,9 @@ app.use(cors({
     origin: CORS_ORIGIN,
     credentials: true
 }))
-app.use(helmet())
+app.use(helmet({
+    crossOriginEmbedderPolicy: false
+}))
 
 app.use(deserializeUser)
 

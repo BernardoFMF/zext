@@ -73,7 +73,7 @@ const mockdata = [
 ];
 
 export default function NavbarMinimal({ path, user }: { path: string, user: Me }) {
-  
+
   const links = mockdata.filter(link => {
     if (!link.needLog) return true
     if (user) return true
@@ -87,17 +87,14 @@ export default function NavbarMinimal({ path, user }: { path: string, user: Me }
   ));
 
   return (
-    <Navbar height={"100%"} width={{ base: 80 }} p="md">
-      <Center>
-        <Image src="/logo-dark.svg" width={50} height={50} alt="logo" />
-      </Center>
-      <Navbar.Section grow mt={50}>
+    <Navbar style={{ background: "#20202380", border: "none", backdropFilter: "blur(10px)"}} height={"100%"} width={{ base: 80 }} p="md">
+      <Navbar.Section grow>
         <Stack justify="center" spacing={0}>
           {links}
         </Stack>
       </Navbar.Section>
       <Navbar.Section>
-        <Stack justify="center" spacing={0}>
+        <Stack justify="center" mb={35} spacing={0}>
           {
             user ? (
               <>

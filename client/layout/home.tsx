@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 import IconNavbar from "../components/navbar";
 import { useMe } from "../context/me";
+import SimpleHeader from "../components/header";
+import { VideosContextProvider } from "../context/videos";
 
 function HomePageLayout ({ children, path }: { children: React.ReactNode, path: string }) {
     const { user, refetch } = useMe()
@@ -10,14 +12,19 @@ function HomePageLayout ({ children, path }: { children: React.ReactNode, path: 
     refetch()
 
     return (
-        <AppShell
-            padding="md"
-            navbar={
-                <IconNavbar user={user} path={path} />
-            }
-        >
-            { children }
-        </AppShell>
+        <VideosContextProvider>
+            <AppShell
+                padding="md"
+                navbar={
+                    <IconNavbar user={user} path={path} />
+                }
+                header={
+                    <SimpleHeader />
+                }
+            >  
+                { children }   
+            </AppShell>
+        </VideosContextProvider>
     )
 }
 

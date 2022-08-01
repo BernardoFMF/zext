@@ -7,6 +7,7 @@ const userBase = `${base}/api/users`
 const loggedUserBase = `${base}/api/users/logged`
 const authBase = `${base}/api/auth/`;
 const videosBase = `${base}/api/videos/`;
+const thumbnailsBase = `${base}/data/`;
 
 export function registerUser(payload: { username: string, password: string, email: string, confirmPassword: string}) {
     return axios.post(userBase, payload)
@@ -71,4 +72,8 @@ export function updateVideo({ videoId, ...payload }: { videoId: string, title: s
       "Content-Type": "multipart/form-data"
     }
  })
+}
+
+export function getVideos() {
+  return axios.get(videosBase).then((res) => res.data);
 }

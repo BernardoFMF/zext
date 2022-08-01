@@ -8,6 +8,7 @@ import { useForm } from "@mantine/form";
 import { Video } from "../types";
 import { AxiosError, AxiosResponse } from "axios";
 import { categories } from "../static-data/categories";
+import { useVideo } from "../context/videos";
 
 const useStyles = createStyles((theme) => ({
     link: {
@@ -33,6 +34,8 @@ const useStyles = createStyles((theme) => ({
   }));
   
 function EditVideoForm({ videoId, onClose }: { videoId: string, onClose: () => void}) {
+    const { refetch } = useVideo()
+
     const form = useForm({
         initialValues: {
             title: "",
@@ -46,6 +49,7 @@ function EditVideoForm({ videoId, onClose }: { videoId: string, onClose: () => v
     const mutation = useMutation<AxiosResponse<Video>, AxiosError, Parameters<typeof updateVideo>["0"]>(updateVideo, {
         onSuccess: () => {
             onClose()
+            refetch()
         },
     })
 
