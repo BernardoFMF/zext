@@ -12,7 +12,6 @@ import {
   IconUpload
 } from '@tabler/icons'
 import Link from 'next/link';
-import { useMe } from '../context/me';
 import LogoutButton from './logoutButton';
 import { Me } from '../types';
 import Image from 'next/image';
@@ -50,6 +49,7 @@ interface NavbarLinkProps {
 
 function NavbarLink({ icon: Icon, label, active, href }: NavbarLinkProps) {
   const { classes, cx } = useStyles();
+  
   return (
       <Link href={href} passHref>
         <Box mb={5}>
@@ -66,10 +66,10 @@ function NavbarLink({ icon: Icon, label, active, href }: NavbarLinkProps) {
 }
 
 const mockdata = [
-  { icon: IconHome2, label: 'Home', href: "/", needLog: false },
-  { icon: IconUser, label: 'Profile', href: "/test", needLog: true },
-  { icon: IconUsers, label: 'Users', href: "/users", needLog: true },
-  { icon: IconHeart, label: 'Liked Videos', href: "/liked-videos", needLog: true }
+  { icon: IconHome2, label: 'Home', href: "/", needLog: false, self: false },
+  { icon: IconUser, label: 'Profile', href: "/users/", needLog: true, self: true, falseRef: "/users/:userid" },
+  { icon: IconUsers, label: 'Users', href: "/users", self: false },
+  { icon: IconHeart, label: 'Liked Videos', href: "/liked-videos/", needLog: true, self: true, falseRef: "/liked-videos" }
 ];
 
 export default function NavbarMinimal({ path, user }: { path: string, user: Me }) {
@@ -78,11 +78,16 @@ export default function NavbarMinimal({ path, user }: { path: string, user: Me }
     if (!link.needLog) return true
     if (user) return true
     return false
+  }).map(link => {
+    if (!link.self) return link
+    let formattedLink = { ...link }
+    formattedLink.href = formattedLink.href + user._id
+    return formattedLink
   }).map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
-      active={link.href === path}
+      active={link.self ? link.falseRef === path : link.href === path}
     />
   ));
 
@@ -99,7 +104,22 @@ export default function NavbarMinimal({ path, user }: { path: string, user: Me }
             user ? (
               <>
                 <UploadVideo />
-                <Box><Avatar size={50} mb={5} src={null} alt="no image here" /></Box>
+                {
+                  !user.image ? (
+                    <Box><Avatar size={50} mb={5} src={null} alt="no image here" /></Box>
+                  ) : (
+                    <div style={{ marginBottom: 5, borderRadius: '50%', overflow: 'hidden', width: 50, height: 50 }}>
+                      <Image 
+                          src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + user.image} 
+                          alt={user._id} 
+                          height={50}
+                          width={50}
+                      />
+                    </div>
+                  )
+                }
+                
+                
                 <LogoutButton />
               </>
             ) : (

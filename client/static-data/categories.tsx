@@ -1,1 +1,1 @@
-export const categories: string[] = ["None", "Film & animation", "Comedy", "Music", "Gaming", "Pets & animals", "News & politics", "Entertainment", "Education", "How to"]
+export const categories: string[] = ["Film & animation", "Comedy", "Music", "Gaming", "Pets & animals", "News & politics", "Entertainment", "Education", "How to", "People & blogs", "Autos & vehicles"]

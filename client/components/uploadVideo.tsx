@@ -177,7 +177,7 @@ export default function UploadVideo() {
             </Modal>
 
             <Box mb={5}>
-                <Tooltip label={"logout"} position="right" transitionDuration={0}>
+                <Tooltip label={"Upload video"} position="right" transitionDuration={0}>
                 
                     <UnstyledButton className={cx(classes.link)} onClick={() => setOpen(true)}>
                         <IconUpload stroke={1.5} />

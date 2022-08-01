@@ -45,7 +45,7 @@ export default function LogoutButton() {
 
     return (
           <Box mb={5}>
-            <Tooltip label={"logout"} position="right" transitionDuration={0}>
+            <Tooltip label={"Logout"} position="right" transitionDuration={0}>
               
                 <UnstyledButton className={cx(classes.link)} onClick={logoutHandler}>
                   <IconLogout stroke={1.5} />

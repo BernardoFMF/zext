@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { StatusCodes } from "http-status-codes"
 import { RegisterUserBody, UpdateProfilePictureBody } from "./user.schema"
-import { createUser, findUserByEmail } from "./user.service"
+import { createUser, findUserByEmail, findUsers } from "./user.service"
 
 export async function registerUserHandler(req: Request<{}, {}, RegisterUserBody>, res: Response) {
     const { username, email, password } = req.body
@@ -35,4 +35,10 @@ export async function updateProfileImage(req: Request<{}, {}, UpdateProfilePictu
 
 export async function getLoggedUser(req: Request, res: Response) {
     res.send(res.locals.user)
+}
+
+export async function getUsers(req: Request, res: Response) {
+    const users = await findUsers()
+
+    return res.status(StatusCodes.OK).send(users)
 }

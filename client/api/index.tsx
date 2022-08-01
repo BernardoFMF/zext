@@ -7,7 +7,6 @@ const userBase = `${base}/api/users`
 const loggedUserBase = `${base}/api/users/logged`
 const authBase = `${base}/api/auth/`;
 const videosBase = `${base}/api/videos/`;
-const thumbnailsBase = `${base}/data/`;
 
 export function registerUser(payload: { username: string, password: string, email: string, confirmPassword: string}) {
     return axios.post(userBase, payload)
@@ -75,5 +74,9 @@ export function updateVideo({ videoId, ...payload }: { videoId: string, title: s
 }
 
 export function getVideos() {
-  return axios.get(videosBase).then((res) => res.data);
+  return axios.get(videosBase).then(res => res.data);
+}
+
+export function getUsers() {
+  return axios.get(userBase).then(res => res.data)
 }

@@ -1,6 +1,6 @@
 export interface Video {
     _id: string;
-    owner: string;
+    owner: string | any;
     published: boolean;
     videoId: string;
     createdAt: Date;
@@ -16,10 +16,12 @@ export interface Video {
 export enum QueryKeys {
     me = "me",
     videos = "videos",
+    users = "users"
 }
 
 export interface Me {
     _id: string;
     email: string;
     username: string;
+    image: string;
 }

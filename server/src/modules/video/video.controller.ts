@@ -5,6 +5,8 @@ import { Video } from "./video.model";
 import { createVideo, findVideo, findVideos } from "./video.service";
 import fs from "fs"
 import { UpdateVideoBody, UpdateVideoParams } from "./video.schema";
+import { findUser } from "../user/user.service";
+import omit from "../../helpers/omit";
 
 const MIME_TYPES = ["video/mp4"] //video/mov
 
@@ -81,7 +83,32 @@ export async function updateVideoHandler(req: Request<UpdateVideoParams, {}, Upd
 export async function findVideosHandler(_: Request, res: Response) {
     const videos = await findVideos()
 
-    return res.status(StatusCodes.OK).send(videos)
+    const usersPromises = videos.map(async video => {
+        return await findUser(String(video.owner))
+    })
+    
+    const users = await Promise.all(usersPromises)
+
+    const mappedUsers = users.map(user => {
+        let mappedUser = {
+            _id: String(user?._id),
+            username: user?.username,
+            image: user?.image
+        }
+        return mappedUser
+    })
+    
+    const joinedVideos = videos.map(video => {
+        let joinedVideo = { ...video }
+        // @ts-ignore: the property is this format doesn't exist, but it's necessary
+        joinedVideo.owner = mappedUsers.filter(user => user._id === String(video.owner))[0]
+        return joinedVideo
+    })
+
+    console.log(joinedVideos);
+    
+
+    return res.status(StatusCodes.OK).send(joinedVideos)
 }
 
 export async function streamVideoHandler(req: Request, res: Response) {

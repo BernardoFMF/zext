@@ -1,9 +1,10 @@
 import Link from "next/link"
 import { Video } from "../types"
-import { Card, Group, Text, Button, ActionIcon, createStyles, ScrollArea, Chip } from "@mantine/core"
+import { Card, Group, Text, Button, ActionIcon, createStyles, ScrollArea, Chip, Avatar, Stack } from "@mantine/core"
 import { IconHeart } from "@tabler/icons"
 import Image from "next/image"
 import { motion } from "framer-motion"
+import { useMe } from "../context/me"
 
 const useStyles = createStyles((theme) => ({
     card: {
@@ -33,18 +34,19 @@ const useStyles = createStyles((theme) => ({
 
 export default function VideoCard({ video }: { video: Video }) {
     const { classes } = useStyles();
+    
+    const { user } = useMe()
 
     return (
         <motion.div whileHover={{ scale: 1.05 }}>
             <Card withBorder radius="md" p="md" className={classes.card}>
                 <div style={{height: '180px', position: 'relative'}}>
-                        <Image 
-                            src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + video.thumbnail} 
-                            alt={video.videoId} 
-                            layout="fill"
-                            style={{ borderRadius: 5 }}
-                        />
-
+                    <Image 
+                        src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + video.thumbnail} 
+                        alt={video.videoId} 
+                        layout="fill"
+                        style={{ borderRadius: 5 }}
+                    />
                 </div>
                 <Card.Section pt={5} style={{ border: "none" }} className={classes.section} mt="md">
                     <Group position="apart">
@@ -66,10 +68,33 @@ export default function VideoCard({ video }: { video: Video }) {
                             See video
                         </Button>
                     </Link>
-                    
-                    <ActionIcon variant="default" radius="md" size={36}>
-                        <IconHeart size={18} className={classes.like} stroke={1.5} />
-                    </ActionIcon>
+                    {
+                        user && (
+                            <ActionIcon variant="default" radius="md" size={36}>
+                                <IconHeart size={18} className={classes.like} stroke={1.5} />
+                            </ActionIcon>
+                        )
+                    }
+                    <Stack align={"center"} ml={10}>
+                        <div style={{ borderRadius: '50%', overflow: 'hidden', width: '48px', height: '48px' }}>
+                            <Link href={`/users/${video.owner._id}`} passHref>
+                                <a>
+                                    <Image 
+                                        src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + video.owner.image} 
+                                        alt={video.owner._id} 
+                                        height={50}
+                                        width={50}
+                                    />
+                                </a>
+                            </Link>
+                        </div>
+                        <Link href={`/users/${video.owner._id}`} passHref>
+                            <a>
+                                <Text>{video.owner.username}</Text>
+                            </a>
+                        </Link>
+                        
+                    </Stack>
                 </Group>
             </Card>
         </motion.div>

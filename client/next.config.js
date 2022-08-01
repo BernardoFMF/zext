@@ -5,6 +5,9 @@ const nextConfig = {
   images: {
     domains: ['localhost']
   },
+  videos: {
+    domains: ['localhost']
+  }
 }
 
 module.exports = nextConfig
