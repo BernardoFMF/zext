@@ -80,3 +80,12 @@ export function getVideos() {
 export function getUsers() {
   return axios.get(userBase).then(res => res.data)
 }
+
+export function updateUserImage({ formData }: { formData: FormData }) {
+  return axios.put(userBase, formData, {
+    withCredentials: true,
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  }).then(res => res.data)
+}

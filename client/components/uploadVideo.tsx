@@ -1,5 +1,5 @@
 import { Modal, Box, Tooltip, UnstyledButton, createStyles, Group, FileInput, Select, Text, Progress, Stack, TextInput, Switch, Button } from "@mantine/core";
-import { useState, Dispatch, SetStateAction, useEffect } from "react";
+import { useState } from "react";
 import { IconPhoto, IconUpload, IconX } from '@tabler/icons'
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { useMutation } from "@tanstack/react-query";
