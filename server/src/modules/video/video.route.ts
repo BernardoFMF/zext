@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.post("/", requireUser, uploadVideoHandler)
 
-router.patch("/:videoId", requireUser, uploadThumbnail.single("image"), updateVideoHandler)
+router.patch("/:videoId", requireUser, uploadThumbnail.single("thumbnail"), updateVideoHandler)
 
 router.get("/:videoId", streamVideoHandler)
 

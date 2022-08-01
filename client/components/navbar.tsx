@@ -16,6 +16,7 @@ import { useMe } from '../context/me';
 import LogoutButton from './logoutButton';
 import { Me } from '../types';
 import Image from 'next/image';
+import UploadVideo from './uploadVideo';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -100,7 +101,7 @@ export default function NavbarMinimal({ path, user }: { path: string, user: Me }
           {
             user ? (
               <>
-
+                <UploadVideo />
                 <Box><Avatar size={50} mb={5} src={null} alt="no image here" /></Box>
                 <LogoutButton />
               </>

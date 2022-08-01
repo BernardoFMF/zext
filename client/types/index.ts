@@ -9,6 +9,8 @@ export interface Video {
     extension: string;
     description: string;
     title: string;
+    category: string;
+    thumbnail: string;
   }
 
 export enum QueryKeys {

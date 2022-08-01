@@ -12,6 +12,7 @@ const storageThumbnail = multer.diskStorage({
     filename: (req: Request, file: Express.Multer.File, cb: FileNameCallback): void => {
         const name: string = Date.now() + path.extname(file.originalname)
         req.body.thumbnail = "thumbnails/" + name;
+
         cb(null, name)
     }
 })
