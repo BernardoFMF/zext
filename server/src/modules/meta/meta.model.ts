@@ -25,7 +25,7 @@ export class Meta {
     @prop({ required: true, ref: () => Video })
     public videoId: Ref<Video>
 
-    @prop({ required: true, default: 0 })
+    @prop({ required: true, default: 0, min: 0 })
     public likes: number
 
     @prop({ required: true, type: UserMeta, default: [] })

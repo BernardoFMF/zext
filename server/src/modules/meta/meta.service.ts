@@ -5,6 +5,9 @@ export function addLike({ userId, videoId }: { userId: string, videoId: string }
     return MetaModel.updateOne({ videoId }, {
         "$set": {
             "usersMeta.$[usersMeta].liked": true
+        },
+        "$inc": {
+            "likes": 1
         }
     }, {
         "arrayFilters": [
@@ -19,6 +22,9 @@ export function deleteLike({ userId, videoId }: { userId: string, videoId: strin
     return MetaModel.updateOne({ videoId }, {
         "$set": {
             "usersMeta.$[usersMeta].liked": false
+        },
+        "$inc": {
+            "likes": -1
         }
     }, {
         "arrayFilters": [
