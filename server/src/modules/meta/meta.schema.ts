@@ -1,4 +1,4 @@
-import { object, string, boolean, TypeOf } from "zod"
+import { object, string, TypeOf } from "zod"
 
 export const addCommentSchema = {
     body: object({

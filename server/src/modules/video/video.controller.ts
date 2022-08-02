@@ -105,9 +105,6 @@ export async function findVideosHandler(_: Request, res: Response) {
         return joinedVideo
     })
 
-    console.log(joinedVideos);
-    
-
     return res.status(StatusCodes.OK).send(joinedVideos)
 }
 
