@@ -7,6 +7,7 @@ import fs from "fs"
 import { UpdateVideoBody, UpdateVideoParams } from "./video.schema";
 import { findUser } from "../user/user.service";
 import omit from "../../helpers/omit";
+import { createMeta } from "../meta/meta.service";
 
 const MIME_TYPES = ["video/mp4"] //video/mov
 
@@ -19,9 +20,11 @@ function getPath({ videoId, extension }: { videoId: Video["videoId"]; extension:
 export async function uploadVideoHandler(req: Request, res: Response) {
     const bb = busboy({ headers: req.headers })
 
-    const user = res.locals.user
+    const { _id } = res.locals.user
 
-    const video = await createVideo({ owner: user._id })
+    const video = await createVideo({ owner: _id })
+
+    await createMeta({ videoId: video._id })
 
     bb.on("file", async (_, file, info) => {
         if (!MIME_TYPES.includes(info.mimeType)) {
