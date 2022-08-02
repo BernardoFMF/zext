@@ -69,7 +69,7 @@ const mockdata = [
   { icon: IconHome2, label: 'Home', href: "/", needLog: false, self: false },
   { icon: IconUser, label: 'Profile', href: "/users/", needLog: true, self: true, falseRef: "/users/:userid" },
   { icon: IconUsers, label: 'Users', href: "/users", self: false },
-  { icon: IconHeart, label: 'Liked Videos', href: "/liked-videos/", needLog: true, self: true, falseRef: "/liked-videos" }
+  { icon: IconHeart, label: 'Liked Videos', href: "/likes", needLog: true, self: false }
 ];
 
 export default function NavbarMinimal({ path, user }: { path: string, user: Me }) {

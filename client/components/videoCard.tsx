@@ -1,10 +1,8 @@
 import Link from "next/link"
 import { Video } from "../types"
-import { Card, Group, Text, Button, ActionIcon, createStyles, ScrollArea, Chip, Avatar, Stack } from "@mantine/core"
-import { IconHeart } from "@tabler/icons"
+import { Card, Group, Text, Button, createStyles, ScrollArea, Chip, Box, Avatar } from "@mantine/core"
 import Image from "next/image"
 import { motion } from "framer-motion"
-import { useMe } from "../context/me"
 
 const useStyles = createStyles((theme) => ({
     card: {
@@ -71,18 +69,25 @@ export default function VideoCard({ video }: { video: Video }) {
                             <Text>{video.owner.username}</Text>
                         </a>
                     </Link>
-                    <div style={{ borderRadius: '50%', overflow: 'hidden', width: '48px', height: '48px' }}>
-                        <Link href={`/users/${video.owner._id}`} passHref>
-                            <a>
-                                <Image 
-                                    src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + video.owner.image} 
-                                    alt={video.owner._id} 
-                                    height={50}
-                                    width={50}
-                                />
-                            </a>
-                        </Link>
-                    </div>
+                    {
+                        !video.owner.image ? (
+                            <Link href={`/users/${video.owner._id}`} passHref><a><Box><Avatar size={50} src={null} alt="no image here" /></Box></a></Link>
+                        ) : (
+                            <div style={{ borderRadius: '50%', overflow: 'hidden', width: '50px', height: '50px' }}>
+                                <Link href={`/users/${video.owner._id}`} passHref>
+                                    <a>
+                                        <Image 
+                                            src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + video.owner.image} 
+                                            alt={video.owner._id} 
+                                            height={50}
+                                            width={50}
+                                        />
+                                    </a>
+                                </Link>
+                            </div>
+                        )
+                    }
+                    
                 </Group>
             </Card>
         </motion.div>

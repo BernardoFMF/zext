@@ -13,6 +13,8 @@ const Home = () => {
   const { videos } = useVideo()
 
   const [value, setValue] = useState(['All']);
+  console.log(videos);
+  
 
   return (
     <>

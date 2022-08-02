@@ -12,6 +12,6 @@ router.post("/:videoId/likes", requireUser, addLikeToVideo)
 
 router.delete("/:videoId/likes", requireUser, deleteLikeFromVideo)
 
-router.get("/:videoId", getVideoMeta)
+router.get("/", getVideoMeta)
 
 export default router

@@ -7,6 +7,7 @@ const userBase = `${base}/api/users`
 const loggedUserBase = `${base}/api/users/logged`
 const authBase = `${base}/api/auth/`;
 const videosBase = `${base}/api/videos/`;
+const metaBase = `${base}/api/meta/`;
 
 export function registerUser(payload: { username: string, password: string, email: string, confirmPassword: string}) {
     return axios.post(userBase, payload)
@@ -88,4 +89,8 @@ export function updateUserImage({ formData }: { formData: FormData }) {
       "Content-Type": "multipart/form-data"
     }
   }).then(res => res.data)
+}
+
+export function getMeta() {
+  return axios.get(metaBase).then(res => res.data);
 }
