@@ -112,7 +112,7 @@ const UserPage = () => {
                     </Stack>
                 </Group>
                 {
-                    (user._id === currentUser._id) && <Button ml={30} mt={20} onClick={() => setOpen(true)}>Change image</Button>
+                    (user && user._id === currentUser._id) && <Button ml={30} mt={20} onClick={() => setOpen(true)}>Change image</Button>
                 }
                 <div style={{ marginTop: 10}} className={styles.container}>
                     <Title order={1}>Videos</Title>

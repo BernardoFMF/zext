@@ -8,9 +8,9 @@ import VideoCard from "../components/videoCard"
 import Section from "../components/slideTransition"
 
 const Likes = () => {
-    const { user, refetch } = useMe()
-    const { meta, refetch: refetchMeta } = useMeta()
-    const { videos, refetch: refetchVideos } = useVideo()
+    const { user } = useMe()
+    const { meta } = useMeta()
+    const { videos } = useVideo()
     
 
     return (
@@ -27,16 +27,10 @@ const Likes = () => {
             >
                 {
                     (videos.filter(video => {
-                        console.log(video);
-                        console.log(meta);
-                        
                         let usersMeta = meta.filter(currVideoMeta => currVideoMeta.videoId === video._id)[0]
-                        console.log("log 1" + usersMeta);
                         if (!usersMeta) return false
                         let checkUserMeta = usersMeta.usersMeta.filter(userMeta => userMeta.userId === user._id)[0]
                         if (!checkUserMeta) return false
-                        console.log("log 2" + checkUserMeta);
-                        
                         return checkUserMeta.liked === true
                     } ) || []).map((video, index) => {
                         return <Section delay={0.1 * index}><VideoCard video={video}/></Section>
