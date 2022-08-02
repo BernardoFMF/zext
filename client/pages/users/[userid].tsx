@@ -91,7 +91,7 @@ const UserPage = () => {
                     </Modal>
             }
             <Box>
-                <Group ml={30} mt={10}>
+                <Group ml={30} mt={15}>
                     {
                         !currentUser.image ? (
                             <Box><Avatar size={100} src={null} alt="no image here" /></Box>
@@ -112,7 +112,7 @@ const UserPage = () => {
                     </Stack>
                 </Group>
                 {
-                    user && <Button ml={30} mt={20} onClick={() => setOpen(true)}>Change image</Button>
+                    (user._id === currentUser._id) && <Button ml={30} mt={20} onClick={() => setOpen(true)}>Change image</Button>
                 }
                 <div style={{ marginTop: 10}} className={styles.container}>
                     <Title order={1}>Videos</Title>
@@ -139,6 +139,6 @@ const UserPage = () => {
 
 UserPage.getLayout = function(page: ReactElement) {
     return <HomePageLayout path="/users/:userid">{page}</HomePageLayout>
-  }
+}
   
 export default UserPage

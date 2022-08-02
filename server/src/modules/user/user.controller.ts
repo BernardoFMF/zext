@@ -2,6 +2,7 @@ import { Request, Response } from "express"
 import { StatusCodes } from "http-status-codes"
 import { RegisterUserBody, UpdateProfilePictureBody } from "./user.schema"
 import { createUser, findUserByEmail, findUsers } from "./user.service"
+import lodash from "lodash"
 
 export async function registerUserHandler(req: Request<{}, {}, RegisterUserBody>, res: Response) {
     const { username, email, password } = req.body
@@ -21,7 +22,7 @@ export async function registerUserHandler(req: Request<{}, {}, RegisterUserBody>
 export async function updateProfileImage(req: Request<{}, {}, UpdateProfilePictureBody>, res: Response) {
     const { image } = req.body
 
-    const { _id: userId, email } = res.locals.user
+    const { email } = res.locals.user
 
     const user = await findUserByEmail(email)
 
@@ -40,5 +41,5 @@ export async function getLoggedUser(req: Request, res: Response) {
 export async function getUsers(req: Request, res: Response) {
     const users = await findUsers()
 
-    return res.status(StatusCodes.OK).send(users)
+    return res.status(StatusCodes.OK).send(users.map(user => lodash.omit(user, ["password", "createdAt", "updatedAt", "__v"])))
 }

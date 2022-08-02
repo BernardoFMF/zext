@@ -1,4 +1,6 @@
 import { useRouter } from "next/router";
+import { ReactElement } from "react";
+import HomePageLayout from "../../layout/home";
 
 function WatchVideoPage() {
   const { query } = useRouter();
@@ -16,6 +18,10 @@ function WatchVideoPage() {
       />
     </div>
   );
+}
+
+WatchVideoPage.getLayout = function(page: ReactElement) {
+  return <HomePageLayout path="/">{page}</HomePageLayout>
 }
 
 export default WatchVideoPage;

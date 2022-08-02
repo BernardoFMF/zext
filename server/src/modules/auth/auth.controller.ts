@@ -18,14 +18,5 @@ export async function loginHandler(req: Request<{}, {}, LoginBody>, res: Respons
   
     const jwt = signJwt(payload)
 
-    /*res.cookie("accessToken", jwt, {
-        maxAge: 3.154e10,
-        httpOnly: true,
-        domain: "localhost", //change this when deploying 54:30
-        path: "/",
-        sameSite: "strict",
-        secure: false //put true when deploying
-    })*/
-
     return res.status(StatusCodes.OK).send(jwt)
 }
