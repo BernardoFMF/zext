@@ -6,6 +6,7 @@ import HomePageLayout from "../layout/home"
 import { SimpleGrid, Title } from "@mantine/core"
 import VideoCard from "../components/videoCard"
 import Section from "../components/slideTransition"
+import Meta from "../components/meta"
 
 const Likes = () => {
     const { user } = useMe()
@@ -15,6 +16,7 @@ const Likes = () => {
 
     return (
         <>
+            <Meta title={`Liked videos - ${user.username}`} />
             <Section delay={0}>
                 <Title order={1}>Liked videos</Title>
             </Section>
@@ -47,5 +49,5 @@ Likes.getLayout = function(page: ReactElement) {
     return <HomePageLayout path="/likes">{page}</HomePageLayout>
   }
   
-  export default Likes
+export default Likes
   

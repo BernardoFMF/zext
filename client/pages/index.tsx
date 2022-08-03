@@ -8,16 +8,16 @@ import { useState } from 'react'
 import Section from '../components/slideTransition'
 import { categories } from '../static-data/categories'
 import { motion } from 'framer-motion'
+import Meta from '../components/meta'
 
 const Home = () => {
   const { videos } = useVideo()
 
   const [value, setValue] = useState(['All']);
-  console.log(videos);
-  
 
   return (
     <>
+      <Meta title="Browse all videos" />
       <Section delay={0}>
         <Title order={1}>Videos</Title>
       </Section>

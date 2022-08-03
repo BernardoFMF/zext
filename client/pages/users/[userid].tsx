@@ -14,6 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import VideoCard from "../../components/videoCard";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { updateUserImage } from "../../api";
+import Meta from "../../components/meta";
 
 const UserPage = () => {
     const { query } = useRouter();
@@ -51,6 +52,7 @@ const UserPage = () => {
 
     return (
         <>
+            <Meta title={`Profile of ${currentUser.username}`} />
             {
                 user && 
                     <Modal
@@ -78,7 +80,6 @@ const UserPage = () => {
                                 <Dropzone.Idle>
                                     <IconPhoto />
                                 </Dropzone.Idle>
-
                                 <div>
                                     <Text size="xl" inline>
                                         Drag videos here or click to select files

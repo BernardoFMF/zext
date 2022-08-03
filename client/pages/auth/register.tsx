@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import AuthLayout from "../../layout/auth"
 import { ReactElement } from "react"
 import Section from "../../components/slideTransition"
+import Meta from "../../components/meta"
 
 function RegisterPage() {
     const theme = useMantineTheme();
@@ -53,9 +54,7 @@ function RegisterPage() {
 
     return (
         <>
-            <Head>
-                <title>Register user</title>
-            </Head>
+            <Meta title="Register" />
             <Container size={420} my={40}>
                 <Section delay={0}>
                     <Title
@@ -69,7 +68,7 @@ function RegisterPage() {
                         Already have an account?{' '}
                         <Link href={"/auth/login"}>
                             <a style={{ color: theme.colors.blue[5] }}>
-                                Create an account
+                                Log in
                             </a>
                         </Link>
                     </Text>
@@ -83,6 +82,7 @@ function RegisterPage() {
                                         label="Email"
                                         placeholder="johnDoe@example.com"
                                         required
+                                        styles={(theme) => ({ required: { color: theme.colors.blue[5] }})}
                                         { ...form.getInputProps("email") }
                                     />
                                 </Section>
@@ -91,6 +91,7 @@ function RegisterPage() {
                                         label="Username"
                                         placeholder="johnDoe"
                                         required
+                                        styles={(theme) => ({ required: { color: theme.colors.blue[5] }})}
                                         { ...form.getInputProps("username") }
                                     />
                                 </Section>
@@ -99,6 +100,7 @@ function RegisterPage() {
                                         label="Password"
                                         placeholder="password"
                                         required
+                                        styles={(theme) => ({ required: { color: theme.colors.blue[5] }})}
                                         { ...form.getInputProps("password") }
                                     />
                                 </Section>
@@ -107,6 +109,7 @@ function RegisterPage() {
                                         label="Confirm password"
                                         placeholder="password"
                                         required
+                                        styles={(theme) => ({ required: { color: theme.colors.blue[5] }})}
                                         { ...form.getInputProps("confirmPassword") }
                                     />
                                 </Section>

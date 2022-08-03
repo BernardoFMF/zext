@@ -21,6 +21,7 @@ import AuthLayout from "../../layout/auth";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import Section from "../../components/slideTransition";
 import Link from "next/link";
+import Meta from "../../components/meta";
 
 function LoginPage() {
     const theme = useMantineTheme();
@@ -64,9 +65,7 @@ function LoginPage() {
   
     return (
         <>
-          <Head>
-            <title>Login</title>
-          </Head>
+          <Meta title="Login" />
           <Container size={420} my={40}>
             <Section delay={0}>
               <Title
@@ -95,6 +94,7 @@ function LoginPage() {
                         label="Email"
                         placeholder="JohnDoe@example.com"
                         required
+                        styles={(theme) => ({ required: { color: theme.colors.blue[5] }})}
                         {...form.getInputProps("email")}
                       />
                     </Section>
@@ -104,6 +104,7 @@ function LoginPage() {
                         label="Password"
                         placeholder="Your password"
                         required
+                        styles={(theme) => ({ required: { color: theme.colors.blue[5] }})}
                         {...form.getInputProps("password")}
                       />
                     </Section>

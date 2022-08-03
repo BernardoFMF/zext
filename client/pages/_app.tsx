@@ -26,7 +26,7 @@ export default function App(props: AppPropsWithLayout) {
     return (
         <>
             <Head>
-                <title>Page title</title>
+                <title>ZEXT - A video sharing platform</title>
                 <meta
                     name="viewport"
                     content="minimum-scale=1, initial-scale=1, width=device-width"

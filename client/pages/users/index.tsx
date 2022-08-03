@@ -3,6 +3,7 @@ import HomePageLayout from "../../layout/home";
 import { useUser } from "../../context/users";
 import UserCard from "../../components/userCard";
 import { SimpleGrid, Chip, Title } from '@mantine/core'
+import Meta from "../../components/meta";
 import Section from "../../components/slideTransition";
 
 function UsersPage() {
@@ -10,6 +11,7 @@ function UsersPage() {
 
     return (
         <>
+            <Meta title={`All users`} />
             <Section delay={0}>
                 <Title order={1}>Users</Title>
             </Section>
@@ -27,7 +29,6 @@ function UsersPage() {
                     users.map((user, index) => <Section delay={0.1 + (0.1 * index)}><UserCard user={user}/></Section>)
                 }
             </SimpleGrid>
-    
         </>
     )
 }
