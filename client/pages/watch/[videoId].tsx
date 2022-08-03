@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
 import HomePageLayout from "../../layout/home";
-import { Box, Avatar, Stack, ScrollArea, Group, Text, Grid, Title, useMantineTheme, ActionIcon, TextInput, Chip, Divider } from "@mantine/core";
+import { Box, Avatar, Stack, ScrollArea, Group, Text, SimpleGrid, Grid, Title, useMantineTheme, ActionIcon, TextInput, Chip, Divider } from "@mantine/core";
 import { useMeta } from "../../context/meta";
 import { useForm } from "@mantine/form";
 import Image from "next/image";
@@ -10,7 +10,9 @@ import { useMutation } from "@tanstack/react-query";
 import { AxiosResponse, AxiosError } from "axios";
 import { postComment, deleteComment } from "../../api";
 import { IconArrowRight } from "@tabler/icons";
+import Section from "../../components/slideTransition";
 import { useVideo } from "../../context/videos";
+import VideoCard from "../../components/videoCard";
 import { useUser } from "../../context/users";
 import Comment from "../../components/commentContainer";
 import { useMe } from "../../context/me";
@@ -24,7 +26,6 @@ function WatchVideoPage() {
   const { users } = useUser()
   const { user } = useMe()
   const theme = useMantineTheme();
-  const SECONDARY_COL_HEIGHT = PRIMARY_COL_HEIGHT / 2 - theme.spacing.md / 2;
 
   const currVideo = videos.filter(video => video.videoId === query.videoId)[0]
   let currentMeta = meta.filter(elem => elem.videoId === currVideo._id)[0]
@@ -156,6 +157,26 @@ function WatchVideoPage() {
           }
         </Text>
         <Divider/>
+        <Title>Related</Title>
+        <SimpleGrid 
+          cols={5}   
+          pt={20}   
+          breakpoints={[
+            { maxWidth: 1024, cols: 3, spacing: 'md' },
+            { maxWidth: 769, cols: 2, spacing: 'sm' },
+            { maxWidth: 600, cols: 1, spacing: 'sm' },
+          ]}
+        >
+          {
+            (videos.filter(video => {
+              if (video._id === currVideo._id) return false
+              if (video.category !== currVideo.category) return false
+              return true
+            }) || []).map((video, index) => {
+              return <Section delay={0.1 * index}><VideoCard video={video}/></Section>
+            })
+          }
+        </SimpleGrid>
       </Stack>
     </Grid>
   );

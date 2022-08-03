@@ -37,11 +37,6 @@ const UserPage = () => {
         mutation.mutate({ formData })
     }
 
-    useEffect(() => {
-        refetch()
-        refetchMe()
-        refetchVideos()
-    }, [mutation.data])
 
     useEffect(() => {
         currentUser = users.filter(curr => curr._id === query.userid)[0]
