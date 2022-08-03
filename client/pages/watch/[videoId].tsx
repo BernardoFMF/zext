@@ -1,14 +1,15 @@
 import { useRouter } from "next/router";
 import { ReactElement } from "react";
 import HomePageLayout from "../../layout/home";
-import { Box, Avatar, Stack, ScrollArea, Group, Text, SimpleGrid, Grid, Title, useMantineTheme, ActionIcon, TextInput, Chip, Divider } from "@mantine/core";
+import { Box, Avatar, Stack, ScrollArea, Group, createStyles, Text, SimpleGrid, Grid, Title, useMantineTheme, ActionIcon, TextInput, Chip, Divider } from "@mantine/core";
 import { useMeta } from "../../context/meta";
 import { useForm } from "@mantine/form";
 import Image from "next/image";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
+import { IconHeart } from "@tabler/icons";
 import { AxiosResponse, AxiosError } from "axios";
-import { postComment, deleteComment } from "../../api";
+import { postComment, deleteComment, postLike, deleteLike } from "../../api";
 import { IconArrowRight } from "@tabler/icons";
 import Section from "../../components/slideTransition";
 import { useVideo } from "../../context/videos";
@@ -18,6 +19,12 @@ import Comment from "../../components/commentContainer";
 import { useMe } from "../../context/me";
 
 const PRIMARY_COL_HEIGHT = 550;
+
+const useStyles = createStyles((theme) => ({
+  like: {
+    color: theme.colors.red[6],
+  }
+}));
 
 function WatchVideoPage() {
   const { query } = useRouter();
@@ -43,6 +50,8 @@ function WatchVideoPage() {
     })
   }).flat(2)
   
+  const likes = currentMeta.likes
+  const currentUserLike = user && currentMeta.usersMeta.filter(elemUser => elemUser.userId === user._id && elemUser.liked === true)[0]
 
   const form = useForm({
     initialValues: {
@@ -63,6 +72,18 @@ function WatchVideoPage() {
     },
   })
 
+  const mutationPostLike = useMutation<AxiosResponse<string>, AxiosError, Parameters<typeof postLike>["0"]>(postLike, {
+    onSuccess: () => {
+      refetch()
+    },
+  })
+
+  const mutationDeleteLike = useMutation<AxiosResponse<string>, AxiosError, Parameters<typeof deleteLike>["0"]>(deleteLike, {
+    onSuccess: () => {
+      refetch()
+    },
+  })
+
   const onClickDelete = ({ commentId }: { commentId: string }) => {
     mutationDeleteComment.mutate({ videoId: String(query.videoId!), commentId })
   }
@@ -71,93 +92,124 @@ function WatchVideoPage() {
     <Grid gutter="xs" >
       <Stack>
         <Group>
-          <video
-            src={`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/videos/${query.videoId}`}
-            width="auto"
-            height={PRIMARY_COL_HEIGHT}
-            crossOrigin="anonymous"
-            controls
-            autoPlay
-            id="video-player"
-            style={{ borderRadius: 20 }}
-          />
+          <Section delay={0}>
+            <video
+              src={`${process.env.NEXT_PUBLIC_API_ENDPOINT}/api/videos/${query.videoId}`}
+              width="auto"
+              height={PRIMARY_COL_HEIGHT}
+              crossOrigin="anonymous"
+              controls
+              autoPlay
+              id="video-player"
+              style={{ borderRadius: 20 }}
+            />
+          </Section>
+          
           <Stack ml={20} style={{ width: 600, height: PRIMARY_COL_HEIGHT }}>
             <form
               onSubmit={form.onSubmit((values) =>
                 mutationPostComment.mutate({ videoId: String(query.videoId!), ...values })
               )}
             >
-              <TextInput 
-                required
-                height={100}
-                radius={"md"}
-                {...form.getInputProps("comment")}
-                rightSection={
-                  <ActionIcon type="submit" size={32} radius="md" color={theme.primaryColor} variant="filled">
-                      <IconArrowRight size={18} stroke={1.5} />
-                  </ActionIcon>
-                }
-                placeholder="Add comment"
-                rightSectionWidth={42}
-              />
+              <Section delay={0.1}>
+                <TextInput 
+                  required
+                  height={100}
+                  radius={"md"}
+                  {...form.getInputProps("comment")}
+                  rightSection={
+                    <ActionIcon type="submit" size={32} radius="md" color={theme.primaryColor} variant="filled">
+                        <IconArrowRight size={18} stroke={1.5} />
+                    </ActionIcon>
+                  }
+                  placeholder="Add comment"
+                  rightSectionWidth={42}
+                />
+              </Section>
+              
             </form>
               
           <ScrollArea style={{ height: PRIMARY_COL_HEIGHT }}>
             <Stack>
               {
-                flattenedMeta.map(elem => <Comment data={elem} loggedUser={user} onClickDelete={onClickDelete}/>)
+                flattenedMeta.map((elem, index) => <Section delay={0.2 + (0.1 * index)}><Comment data={elem} loggedUser={user} onClickDelete={onClickDelete}/></Section>)
               }
             </Stack>
           </ScrollArea> 
           </Stack>
         </Group>
         <Group>
-          {
-              !currVideo.owner.image ? (
-                  <Link href={`/users/${currVideo.owner._id}`} passHref><a><Box><Avatar size={50} src={null} alt="no image here" /></Box></a></Link>
-              ) : (
-                  <div style={{ borderRadius: '50%', overflow: 'hidden', width: '50px', height: '50px' }}>
-                      <Link href={`/users/${currVideo.owner._id}`} passHref>
-                          <a>
-                              <Image 
-                                  src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + currVideo.owner.image} 
-                                  alt={currVideo.owner._id} 
-                                  height={50}
-                                  width={50}
-                              />
-                          </a>
-                      </Link>
-                  </div>
-              )
-          }
-          <Link href={`/users/${currVideo.owner._id}`} passHref>
+          <Section delay={0.3}>
+            {
+                !currVideo.owner.image ? (
+                    <Link href={`/users/${currVideo.owner._id}`} passHref><a><Box><Avatar size={50} src={null} alt="no image here" /></Box></a></Link>
+                ) : (
+                    <div style={{ borderRadius: '50%', overflow: 'hidden', width: '50px', height: '50px' }}>
+                        <Link href={`/users/${currVideo.owner._id}`} passHref>
+                            <a>
+                                <Image 
+                                    src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + currVideo.owner.image} 
+                                    alt={currVideo.owner._id} 
+                                    height={50}
+                                    width={50}
+                                />
+                            </a>
+                        </Link>
+                    </div>
+                )
+            }
+          </Section>
+          <Section delay={0.4}>
+            <Link href={`/users/${currVideo.owner._id}`} passHref>
               <a>
                 {
                     currVideo.owner.username
                 }
               </a>
-          </Link>
+            </Link>
+          </Section>
         </Group>
         <Group>
-          <Title>
-            {
-              currVideo.title
-            }
-          </Title>
-          <Chip checked={false}>
-            {
-              currVideo.category
-            }
-          </Chip>
+          <Section delay={0.5}>
+            <Title>
+              {
+                currVideo.title
+              }
+            </Title>
+          </Section>
+          <Section delay={0.5}>
+            <Chip checked={false}>
+              {
+                currVideo.category
+              }
+            </Chip>
+          </Section>
+          <Section delay={0.5}>
+            <ActionIcon onClick={() => {if (user) {currentUserLike ? mutationDeleteLike.mutate({ videoId: String(query.videoId!) }) : mutationPostLike.mutate({ videoId: String(query.videoId!) })} }} variant="default" radius="md" size={36}>
+              <IconHeart fill={currentUserLike ? theme.colors.red[6] : ""} size={18} color={theme.colors.red[6]} stroke={1.5} />
+            </ActionIcon>  
+          </Section>
+          <Section delay={0.5}>
+            <Text>
+              { 
+                likes 
+              }
+            </Text>
+          </Section>
         </Group>
-        
-        <Text>
-          {
-            currVideo.description
-          }
-        </Text>
-        <Divider/>
-        <Title>Related</Title>
+        <Section delay={0.6}>
+          <Text>
+            {
+              currVideo.description
+            }
+          </Text>  
+        </Section>
+        <Section delay={0.6}>
+          <Divider/>
+        </Section>
+        <Section delay={0.7}>
+          <Title>Related</Title>
+        </Section>
         <SimpleGrid 
           cols={5}   
           pt={20}   
@@ -173,7 +225,7 @@ function WatchVideoPage() {
               if (video.category !== currVideo.category) return false
               return true
             }) || []).map((video, index) => {
-              return <Section delay={0.1 * index}><VideoCard video={video}/></Section>
+              return <Section delay={0.8 + (0.1 * index)}><VideoCard video={video}/></Section>
             })
           }
         </SimpleGrid>

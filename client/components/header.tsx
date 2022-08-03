@@ -1,6 +1,7 @@
 import { Header, Container, Group, createStyles, TextInput } from "@mantine/core";
 import { IconSearch } from "@tabler/icons";
-import Image from "next/image";
+import Section from "./slideTransition";
+import Logo from "./logo";
 
 const HEADER_HEIGHT = 50
 
@@ -50,7 +51,7 @@ export default function SimpleHeader() {
         <Header style={{ background: "#20202380", border: "none", backdropFilter: "blur(10px)"}} height={HEADER_HEIGHT} >
             <Container className={classes.inner} fluid>
                 <Group>
-                    <Image src="/logo-dark.svg" width={50} height={50} alt="logo" />
+                    <Logo />
                     <TextInput
                         ml={15}
                         placeholder="Search"

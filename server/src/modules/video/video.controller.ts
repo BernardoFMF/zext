@@ -87,15 +87,11 @@ export async function findVideosHandler(_: Request, res: Response) {
     const videos = await findVideos()
 
     const usersPromises = videos.map(async video => {
-        console.log(video.owner);
         
         return await findUser(String(video.owner))
     })
     
     const users = await Promise.all(usersPromises)
-
-    console.log(users);
-    
 
     const mappedUsers = users.map(user => {
         let mappedUser = {

@@ -15,7 +15,9 @@ const Likes = () => {
 
     return (
         <>
-            <Title order={1}>Liked videos</Title>
+            <Section delay={0}>
+                <Title order={1}>Liked videos</Title>
+            </Section>
             <SimpleGrid 
                 cols={5}   
                 pt={20}   
@@ -33,7 +35,7 @@ const Likes = () => {
                         if (!checkUserMeta) return false
                         return checkUserMeta.liked === true
                     } ) || []).map((video, index) => {
-                        return <Section delay={0.1 * index}><VideoCard video={video}/></Section>
+                        return <Section delay={0.1 + (0.1 * index)}><VideoCard video={video}/></Section>
                     })
                 }
             </SimpleGrid>

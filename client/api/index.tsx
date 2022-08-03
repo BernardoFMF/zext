@@ -106,3 +106,15 @@ export function deleteComment({ videoId, commentId }: { videoId: string, comment
     withCredentials: true
   }).then(res => res.data)
 }
+
+export function postLike({ videoId }: { videoId: string }) {
+  return axios.post(metaBase + videoId + "/likes", {}, {
+    withCredentials: true
+  }).then(res => res.data)
+}
+
+export function deleteLike({ videoId }: { videoId: string }) {
+  return axios.delete(metaBase + videoId + "/likes", {
+    withCredentials: true
+  }).then(res => res.data)
+}

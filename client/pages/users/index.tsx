@@ -3,13 +3,17 @@ import HomePageLayout from "../../layout/home";
 import { useUser } from "../../context/users";
 import UserCard from "../../components/userCard";
 import { SimpleGrid, Chip, Title } from '@mantine/core'
+import Section from "../../components/slideTransition";
 
 function UsersPage() {
     const { users } = useUser()
 
     return (
         <>
-            <Title order={1}>Users</Title>
+            <Section delay={0}>
+                <Title order={1}>Users</Title>
+            </Section>
+
             <SimpleGrid 
                 cols={5}   
                 pt={20}   
@@ -20,7 +24,7 @@ function UsersPage() {
                 ]}
             >
                 {
-                    users.map(user => <UserCard user={user}/>)
+                    users.map((user, index) => <Section delay={0.1 + (0.1 * index)}><UserCard user={user}/></Section>)
                 }
             </SimpleGrid>
     

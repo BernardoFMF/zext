@@ -37,6 +37,12 @@ const UserPage = () => {
         mutation.mutate({ formData })
     }
 
+    useEffect(() => {
+        //May be uneccessary
+        refetch()
+        refetchMe()
+        refetchVideos()
+    }, [mutation.data])
 
     useEffect(() => {
         currentUser = users.filter(curr => curr._id === query.userid)[0]
@@ -87,30 +93,39 @@ const UserPage = () => {
             }
             <Box>
                 <Group ml={30} mt={15}>
-                    {
-                        !currentUser.image ? (
-                            <Box><Avatar size={100} src={null} alt="no image here" /></Box>
-                        ) : (
-                            <div style={{ borderRadius: '50%', overflow: 'hidden', width: 100, height: 100 }}>
-                            <Image 
-                                src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + currentUser.image} 
-                                alt={currentUser._id} 
-                                height={100}
-                                width={100}
-                            />
-                            </div>
-                        )
-                    }
+                    <Section delay={0}>
+                        {
+                            !currentUser.image ? (
+                                <Box><Avatar size={100} src={null} alt="no image here" /></Box>
+                            ) : (
+                                <div style={{ borderRadius: '50%', overflow: 'hidden', width: 100, height: 100 }}>
+                                <Image 
+                                    src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + currentUser.image} 
+                                    alt={currentUser._id} 
+                                    height={100}
+                                    width={100}
+                                />
+                                </div>
+                            )
+                        }
+                    </Section>
+
                     <Stack>
-                        <Title order={2}>{currentUser.username}</Title>
-                        <Text mt={-15}>{currentUser.email}</Text>
+                        <Section delay={0.1}>
+                            <Title order={2}>{currentUser.username}</Title>
+                        </Section>
+                        <Section delay={0.2}>
+                            <Text mt={-15}>{currentUser.email}</Text>
+                        </Section>
                     </Stack>
                 </Group>
                 {
-                    (user && user._id === currentUser._id) && <Button ml={30} mt={20} onClick={() => setOpen(true)}>Change image</Button>
+                    (user && user._id === currentUser._id) && <Section delay={0.3}><Button ml={30} mt={20} onClick={() => setOpen(true)}>Change image</Button></Section>
                 }
                 <div style={{ marginTop: 10}} className={styles.container}>
-                    <Title order={1}>Videos</Title>
+                    <Section delay={0.4}>
+                        <Title order={1}>Videos</Title>
+                    </Section>
                     <SimpleGrid 
                         cols={5}   
                         pt={20}   
@@ -122,7 +137,7 @@ const UserPage = () => {
                     >
                         {
                             (currentUserVideos || []).map((video, index) => {
-                                return <Section delay={0.1 * index}><VideoCard video={video}/></Section>
+                                return <Section delay={0.5 + (0.1 * index)}><VideoCard video={video}/></Section>
                             })
                         }
                     </SimpleGrid>

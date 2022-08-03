@@ -18,17 +18,22 @@ const Home = () => {
 
   return (
     <>
-      <Title order={1}>Videos</Title>
+      <Section delay={0}>
+        <Title order={1}>Videos</Title>
+      </Section>
+      
       <div className={styles.container}>
-        
-        <Chip.Group style={{ width: "100%"}} mt={10} multiple value={value} onChange={setValue}>
-          <motion.div whileHover={{ scale: 1.05 }}>
-            <Chip value="All">All</Chip>
-          </motion.div>
-          {
-            categories.map(category => <motion.div whileHover={{ scale: 1.05 }}><Chip value={category}>{category}</Chip></motion.div>)
-          }
-        </Chip.Group>
+        <Section delay={0.2}>
+          <Chip.Group style={{ width: "100%"}} mt={10} multiple value={value} onChange={setValue}>
+            <motion.div whileHover={{ scale: 1.05 }}>
+              <Chip value="All">All</Chip>
+            </motion.div>
+            {
+              categories.map(category => <motion.div whileHover={{ scale: 1.05 }}><Chip value={category}>{category}</Chip></motion.div>)
+            }
+          </Chip.Group>
+        </Section>
+
         <SimpleGrid 
           cols={5}   
           pt={20}   
@@ -43,7 +48,7 @@ const Home = () => {
               if (value.includes("All")) return true
               return value.includes(video.category)
             }).map((video, index) => {
-              return <Section delay={0.1 * index}><VideoCard video={video}/></Section>
+              return <Section delay={0.3 + (0.1 * index)}><VideoCard video={video}/></Section>
             })
           }
         </SimpleGrid>

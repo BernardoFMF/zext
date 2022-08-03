@@ -16,6 +16,7 @@ import LogoutButton from './logoutButton';
 import { Me } from '../types';
 import Image from 'next/image';
 import UploadVideo from './uploadVideo';
+import Section from './slideTransition';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -84,11 +85,14 @@ export default function NavbarMinimal({ path, user }: { path: string, user: Me }
     formattedLink.href = formattedLink.href + user._id
     return formattedLink
   }).map((link, index) => (
-    <NavbarLink
-      {...link}
-      key={link.label}
-      active={link.self ? link.falseRef === path : link.href === path}
-    />
+    <Section delay={0.1 * index}>
+      <NavbarLink
+        {...link}
+        key={link.label}
+        active={link.self ? link.falseRef === path : link.href === path}
+      />
+    </Section>
+
   ));
 
   return (
@@ -103,27 +107,34 @@ export default function NavbarMinimal({ path, user }: { path: string, user: Me }
           {
             user ? (
               <>
-                <UploadVideo />
-                {
-                  !user.image ? (
-                    <Box><Avatar size={50} mb={5} src={null} alt="no image here" /></Box>
-                  ) : (
-                    <div style={{ marginBottom: 5, borderRadius: '50%', overflow: 'hidden', width: 50, height: 50 }}>
-                      <Image 
-                          src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + user.image} 
-                          alt={user._id} 
-                          height={50}
-                          width={50}
-                      />
-                    </div>
-                  )
-                }
-                
-                
-                <LogoutButton />
+                <Section delay={0.4}>
+                  <UploadVideo />
+                </Section>
+                <Section delay={0.5}>
+                  {
+                    !user.image ? (
+                      <Box><Avatar size={50} mb={5} src={null} alt="no image here" /></Box>
+                    ) : (
+                      <div style={{ marginBottom: 5, borderRadius: '50%', overflow: 'hidden', width: 50, height: 50 }}>
+                        <Image 
+                            src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + user.image} 
+                            alt={user._id} 
+                            height={50}
+                            width={50}
+                        />
+                      </div>
+                    )
+                  }
+                </Section>
+                <Section delay={0.6}>
+                  <LogoutButton />
+                </Section>
               </>
             ) : (
-              <NavbarLink icon={IconLogin} label="Login" href='/auth/login' />
+              <Section delay={0.6}>
+                <NavbarLink icon={IconLogin} label="Login" href='/auth/login' />
+              </Section>
+              
             )
           }
           
