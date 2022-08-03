@@ -2,7 +2,7 @@ import { Request, Response } from "express"
 import { StatusCodes } from "http-status-codes"
 import { addLike, deleteLike, addComment, deleteComment, getMeta, findMeta, createMeta, findUserMeta, createUserMeta } from "./meta.service"
 import { findVideo } from "../video/video.service"
-import { AddCommentParams, AddCommentBody, DeleteCommentParams, DeleteCommentBody, AddLikeParams, DeleteLikeParams, GetVideoMetaParams } from "./meta.schema"
+import { AddCommentParams, AddCommentBody, DeleteCommentParams, AddLikeParams, DeleteLikeParams } from "./meta.schema"
 
 export async function addCommentToVideo(req: Request<AddCommentParams, {}, AddCommentBody>, res: Response) {
     const { videoId } = req.params
@@ -27,9 +27,8 @@ export async function addCommentToVideo(req: Request<AddCommentParams, {}, AddCo
     return res.status(StatusCodes.CREATED).send("Comment added successfully")
 }
 
-export async function deleteCommentFromVideo(req: Request<DeleteCommentParams, {}, DeleteCommentBody>, res: Response) {
-    const { videoId } = req.params
-    const { commentId } = req.body
+export async function deleteCommentFromVideo(req: Request<DeleteCommentParams, {}, {}>, res: Response) {
+    const { videoId, commentId } = req.params
     
     const { _id: userId } = res.locals.user
 

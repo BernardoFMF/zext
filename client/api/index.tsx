@@ -94,3 +94,15 @@ export function updateUserImage({ formData }: { formData: FormData }) {
 export function getMeta() {
   return axios.get(metaBase).then(res => res.data);
 }
+
+export function postComment({ videoId, ...payload }: { videoId: string, comment: string }) {
+  return axios.post(metaBase + videoId + "/comments", payload, {
+    withCredentials: true
+  }).then(res => res.data)
+}
+
+export function deleteComment({ videoId, commentId }: { videoId: string, commentId: string }) {
+  return axios.delete(metaBase + videoId + "/comments/" + commentId, {
+    withCredentials: true
+  }).then(res => res.data)
+}

@@ -10,11 +10,9 @@ export const addCommentSchema = {
 }
 
 export const deleteCommentSchema = {
-    body: object({
-        commentId: string()
-    }),
     params: object({
-        videoId: string()
+        videoId: string(),
+        commentId: string()
     })
 }
 
@@ -39,8 +37,6 @@ export const getVideoMetaSchema = {
 export type AddCommentBody = TypeOf<typeof addCommentSchema.body>
 
 export type AddCommentParams = TypeOf<typeof addCommentSchema.params>
-
-export type DeleteCommentBody = TypeOf<typeof deleteCommentSchema.body>
 
 export type DeleteCommentParams = TypeOf<typeof deleteCommentSchema.params>
 

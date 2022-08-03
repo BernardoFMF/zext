@@ -6,7 +6,7 @@ const router = express.Router()
 
 router.post("/:videoId/comments", requireUser, addCommentToVideo)
 
-router.delete("/:videoId/comments", requireUser, deleteCommentFromVideo)
+router.delete("/:videoId/comments/:commentId", requireUser, deleteCommentFromVideo)
 
 router.post("/:videoId/likes", requireUser, addLikeToVideo)
 
