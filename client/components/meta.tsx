@@ -1,9 +1,11 @@
-import Head from "next/head";
+import Head from "next/head"
 
-export default function Meta({ title }: { title: string }) {
+function Meta({ title }: { title: string }) {
     return (
         <Head>
             <title>{ `${title} - ZEXT` }</title>
         </Head>
     )
 }
+
+export default Meta

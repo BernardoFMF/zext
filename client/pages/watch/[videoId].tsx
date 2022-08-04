@@ -18,6 +18,7 @@ import { useUser } from "../../context/users";
 import Comment from "../../components/commentContainer";
 import { useMe } from "../../context/me";
 import Meta from "../../components/meta";
+import UserImageContainer from "../../components/userImageContainer";
 
 const PRIMARY_COL_HEIGHT = 550;
 
@@ -136,24 +137,11 @@ function WatchVideoPage() {
           </Group>
           <Group>
             <Section delay={0.3}>
-              {
-                  !currVideo.owner.image ? (
-                      <Link href={`/users/${currVideo.owner._id}`} passHref><a><Box><Avatar size={50} src={null} alt="no image here" /></Box></a></Link>
-                  ) : (
-                      <div style={{ borderRadius: '50%', overflow: 'hidden', width: '50px', height: '50px' }}>
-                          <Link href={`/users/${currVideo.owner._id}`} passHref>
-                              <a>
-                                  <Image 
-                                      src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + currVideo.owner.image} 
-                                      alt={currVideo.owner._id} 
-                                      height={50}
-                                      width={50}
-                                  />
-                              </a>
-                          </Link>
-                      </div>
-                  )
-              }
+              <Link href={`/users/${currVideo.owner._id}`} passHref>
+                <a>
+                  <UserImageContainer image={currVideo.owner.image} userId={currVideo.owner._id} />
+                </a>
+              </Link>
             </Section>
             <Section delay={0.4}>
               <Link href={`/users/${currVideo.owner._id}`} passHref>

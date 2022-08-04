@@ -15,6 +15,7 @@ import VideoCard from "../../components/videoCard";
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone";
 import { updateUserImage } from "../../api";
 import Meta from "../../components/meta";
+import UserImageContainer from "../../components/userImageContainer";
 
 const UserPage = () => {
     const { query } = useRouter();
@@ -82,10 +83,10 @@ const UserPage = () => {
                                 </Dropzone.Idle>
                                 <div>
                                     <Text size="xl" inline>
-                                        Drag videos here or click to select files
+                                        Drag images here or click to select files
                                     </Text>
                                     <Text size="sm" color="dimmed" inline mt={7}>
-                                        Attach only one video
+                                        Attach only one image
                                     </Text>
                                 </div>
                             </Group>
@@ -95,20 +96,7 @@ const UserPage = () => {
             <Box>
                 <Group ml={30} mt={15}>
                     <Section delay={0}>
-                        {
-                            !currentUser.image ? (
-                                <Box><Avatar size={100} src={null} alt="no image here" /></Box>
-                            ) : (
-                                <div style={{ borderRadius: '50%', overflow: 'hidden', width: 100, height: 100 }}>
-                                <Image 
-                                    src={process.env.NEXT_PUBLIC_API_ENDPOINT + "/data/" + currentUser.image} 
-                                    alt={currentUser._id} 
-                                    height={100}
-                                    width={100}
-                                />
-                                </div>
-                            )
-                        }
+                        <UserImageContainer image={currentUser.image} userId={currentUser._id} />
                     </Section>
 
                     <Stack>
